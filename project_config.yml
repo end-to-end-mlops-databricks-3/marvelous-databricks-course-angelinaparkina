@@ -1,0 +1,8 @@
+prd:
+  catalog_name: mlops_prd
+  schema_name: angelina
+dev:
+  catalog_name: mlops_dev
+  schema_name: angelina
+
+# everything related to features, configuration can be put here
