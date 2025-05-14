@@ -6,3 +6,14 @@ dev:
   schema_name: angelina
 
 # everything related to features, configuration can be put here
+parameters:
+  learning_rate: 0.01
+  n_estimators: 1000
+  max_depth: 6
+
+
+num_features:
+
+cat_features:
+
+target: 
