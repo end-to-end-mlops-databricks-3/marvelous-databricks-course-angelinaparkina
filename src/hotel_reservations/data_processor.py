@@ -9,6 +9,7 @@ from sklearn.model_selection import train_test_split
 from src.hotel_reservations.config import ProjectConfig
 
 class DataProcessor:
+
     """A class for preprocessing and managing DataFrame operations.
         This class handles data preprocessing, splitting, and saving to Databricks tables
     
@@ -23,7 +24,7 @@ class DataProcessor:
         This method handles missing values, converts data types, and performs feature engineering.
         """
         #handle missing values
-        self.df[self.config.target].dropna()
+        self.df[self.config.target].dropna() #a test can be made to check whether this works
 
         #convert numerical features to numerical type
         num_features = self.config.num_features
