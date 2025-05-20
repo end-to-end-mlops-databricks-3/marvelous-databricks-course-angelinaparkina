@@ -21,7 +21,7 @@ class DataProcessor:
         self.spark = spark
     
     def preprocess(self) -> None:
-        """ Preprocess the df stored in self.df
+        """ Preprocess the df stored in self.df.
         
         This method handles missing values, converts data types, and performs feature engineering.
         

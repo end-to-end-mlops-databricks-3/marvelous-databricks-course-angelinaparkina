@@ -1,4 +1,4 @@
-""" Script for first week of the course """
+""" Script for first week of the course."""
 # COMMAND ----------|^
 # %pip install -e ..
 
