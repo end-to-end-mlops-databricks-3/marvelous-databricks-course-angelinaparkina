@@ -1,9 +1,11 @@
-#for practice with classes, create a data reader class
+""" Data Reader module.""" 
+
 
 import pandas as pd
 
 class DataReader:
     """Takes care of reading in the data. It needs a path pointing to where the data resides.
+
     Right now only works for csv format.
     It will read in and return a pandas dataframe. 
     
