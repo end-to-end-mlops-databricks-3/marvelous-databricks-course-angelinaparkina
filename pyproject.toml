@@ -72,7 +72,6 @@ lint.select = [
     "I",    # isort rules
     "UP",   # pyupgrade rules
     "SIM",  # flake8-simplify rules
-    "ERA",  # eradicate rules
     "C",    # pylint convention rules
     "D",    # pydocstyle rules
     "ANN"   # flake8-annotations rules
@@ -83,6 +82,7 @@ lint.ignore = [
     "D213", # multi-line-summary-second-line
     "E501", # line-too-long
     "C901", # too complex
+    "ERA",  # eradicate rules
 ]
 
 [tool.ruff.format]

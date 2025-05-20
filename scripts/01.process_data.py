@@ -28,11 +28,11 @@ config_path = f"../project_config.yml"
 
 config = ProjectConfig.from_yaml(config_path=config_path,env="dev")
 
-temp_log_file_path = "/tmp/logs/marvelous-1.log"
+# temp_log_file_path = "/tmp/logs/marvelous-1.log"
 
-log_file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/logging/marvelous-1.log"
+log_file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/logs/marvelous-1.log"
 
-setup_logging(log_file=temp_log_file_path)
+setup_logging(log_file=log_file_path)
 
 logger.info("Configuration loaded:")
 logger.info(yaml.dump(config,default_flow_style=False))
@@ -79,7 +79,9 @@ data_processor.save_to_catalog(X_train,X_test)
 
 # COMMAND ----------|^
 
-with open(temp_log_file_path, "r") as log_file:
-    logs = log_file.readlines()
+logger.remove()
 
-dbutils.fs.put(log_file_path, "".join(logs), overwrite=True)
+# with open(temp_log_file_path, "r") as log_file:
+#     logs = log_file.readlines()
+
+# dbutils.fs.put(log_file_path, "".join(logs), overwrite=True)

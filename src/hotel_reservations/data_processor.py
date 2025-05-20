@@ -10,9 +10,9 @@ from src.hotel_reservations.config import ProjectConfig
 
 class DataProcessor:
 
-    """
-    A class for preprocessing and managing DataFrame operations.
+    """A class for preprocessing and managing DataFrame operations.
     This class handles data preprocessing, splitting, and saving to Databricks tables.
+
     """
     def __init__(self,pandas_df: pd.DataFrame,config:ProjectConfig,spark: SparkSession) -> None:
         self.df = pandas_df
@@ -22,6 +22,7 @@ class DataProcessor:
     def preprocess(self) -> None:
         """ Preprocess the df stored in self.df
         This method handles missing values, converts data types, and performs feature engineering.
+        
         """
         #handle duplicates
         self.df = self.df.drop_duplicates()
