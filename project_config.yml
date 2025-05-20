@@ -13,16 +13,19 @@ parameters:
 
 
 num_features:
-  no_of_adults
-  no_of_children
-  no_of_weekend_nights
-  avg_price_per_room
-  no_of_special_requests
+  - no_of_adults
+  - no_of_children
+  - no_of_weekend_nights
+  - avg_price_per_room
+  - no_of_special_requests
+  - no_of_previous_cancellations
+  - repeated_guest
+  - lead_time
 
 
 cat_features:
-  type_of_meal_plan
-  room_type_reserved
-  market_segmetn_type
+  - type_of_meal_plan
+  - room_type_reserved
+  - market_segment_type
 
 target: booking_status

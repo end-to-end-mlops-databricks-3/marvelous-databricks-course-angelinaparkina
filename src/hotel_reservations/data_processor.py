@@ -23,16 +23,20 @@ class DataProcessor:
         """ Preprocess the df stored in self.df
         This method handles missing values, converts data types, and performs feature engineering.
         """
+
+        #handle duplicates
+        self.df = self.df.drop_duplicates()
+        
         #handle missing values
         self.df[self.config.target].dropna() #a test can be made to check whether this works
 
         #convert numerical features to numerical type
         num_features = self.config.num_features
-        self.df[[num_features]] = self.df[[num_features]].apply(pd.to_numeric,errors='coerce')
+        self.df[num_features] = self.df[num_features].apply(pd.to_numeric,errors='coerce')
 
         #convert categorical features to categorical type
-        cat_features = self.config.catfeatures
-        self.df[[cat_features]] = self.df[[cat_features]].astype('category')
+        cat_features = self.config.cat_features
+        self.df[cat_features] = self.df[cat_features].astype('category')
 
 
         #extract target and relevant features
@@ -61,9 +65,9 @@ class DataProcessor:
         :param train_set: The training DataFrame to be saved.
         :param test_set: The test DataFrame to be saved.
         """
-         train_set_with_timestamp = self.spark.CreateDataFrame(train_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
+         train_set_with_timestamp = self.spark.createDataFrame(train_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
 
-         test_set_with_timestamp = self.spark.CreateDataFrame(test_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
+         test_set_with_timestamp = self.spark.createDataFrame(test_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
 
          train_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.train_set")
          test_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.test_set")

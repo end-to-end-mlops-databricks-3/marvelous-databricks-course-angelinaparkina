@@ -14,7 +14,7 @@ class DataReader:
     def read_csv(self):
         #potentially this needs to be more flexible with format specified as parameter
 
-        df = pd.read_csv(self.path,header=True)
+        df = pd.read_csv(self.path,header=0)
 
         return df
 
