@@ -15,7 +15,7 @@ class DataReader:
         self.path = file_path
 
     def read_csv(self) -> pd.DataFrame:
-        """Reads in csv file and returns a pandas dataframe."""
+        """Read in csv file and returns a pandas dataframe."""
         #potentially this needs to be more flexible with format specified as parameter
 
         df = pd.read_csv(self.path,header=0)
