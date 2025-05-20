@@ -33,6 +33,7 @@ def test_dataprocessor_init(
     :param sample_data: Sample DataFrame for testing
     :param config: Configuration object for the project
     :param spark: SparkSession object
+    
     """
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     assert isinstance(processor.df, pd.DataFrame)
@@ -42,24 +43,26 @@ def test_dataprocessor_init(
     assert isinstance(processor.spark, SparkSession)
 
 
-def test_na_handling_target(sample_data: pd.DataFrame,config: ProjectConfig,spark_session: SparkSession):
+def test_na_handling_target(sample_data: pd.DataFrame,config: ProjectConfig,spark_session: SparkSession) -> None:
     """
     Test missing value handling in the DataProcessor.
-    This test focuses on testing if the target column has no missing values
+    This test focuses on testing if the target column has no missing values.
 
     :param sample_data: Input DataFrame containing sample data
     :param config: Configuration object for the project
     :param spark: SparkSession object
+
     """
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     processor.preprocess()
 
     assert processor.df[config.target].isnull().sum() == 0
 
-def test_column_selection(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession):
+def test_column_selection(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession) -> None:
     """
     Test the column selection in the Data Processor.
-    This test focuses on checking if the amount of columns we want to include based on the config matches what we actually selected
+    This test focuses on checking if the amount of columns we want to include based on the config matches what we actually selected.
+
     :param sample_data: Input DataFrame containing sample data
     :param config: Configuration object for the project
     :param spark: SparkSession object
@@ -71,10 +74,11 @@ def test_column_selection(sample_data: pd.DataFrame,config: ProjectConfig, spark
     selected_cols = config.cat_features + config.num_features + [config.target] + ['Booking_ID']
     assert len(processor.df.columns)==len(selected_cols)
 
-def test_column_transformations(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession):
+def test_column_transformations(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession) -> None:
     """
     Test the columns were correctly processed by Data Processor.
     Checking if different column transformations were correctly applied.
+
     :param sample_data: Input DataFrame containing sample data
     :param config: Configuration object for the project
     :param spark: SparkSession object
@@ -112,9 +116,10 @@ def test_split_data_default_params(
     train.to_csv((CATALOG_DIR / "train_set.csv").as_posix(), index=False)  # noqa
     test.to_csv((CATALOG_DIR / "test_set.csv").as_posix(), index=False)  # noqa
 
-def test_data_save(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession):
+def test_data_save(sample_data: pd.DataFrame,config: ProjectConfig, spark_session: SparkSession) -> None:
     """
-    Test that the data is saved to UC
+    Test that the data is saved to UC.
+
     :param sample_data: Input DataFrame containing sample data
     :param config: Configuration object for the project
     :param spark: SparkSession object

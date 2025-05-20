@@ -1,16 +1,16 @@
 # COMMAND ----------|^
-%pip install -e ..
+# %pip install -e ..
 
 # COMMAND ----------|^
-%pip install git+https://github.com/end-to-end-mlops-databricks-3/marvelous
+# %pip install git+https://github.com/end-to-end-mlops-databricks-3/marvelous
 
 # COMMAND ----------|^
-%restart_python
+# %restart_python
 
 # COMMAND ----------|^
-from pathlib import Path
-import sys
-sys.path.append(str(Path.cwd().parent / 'src'))
+# from pathlib import Path
+# import sys
+# sys.path.append(str(Path.cwd().parent / 'src'))
 
 # COMMAND ----------|^
 import pandas as pd
