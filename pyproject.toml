@@ -24,8 +24,6 @@ dependencies = [
 
 dynamic = ['version']
 
-[tool.uv.sources]
-marvelous = {git = "https://${GIT_TOKEN}@github.com/end-to-end-mlops-databricks-3/marvelous.git", rev="0.1.0"}
 
 [project.optional-dependencies]
 dev = ["databricks-connect==15.4.5",
@@ -35,7 +33,7 @@ dev = ["databricks-connect==15.4.5",
        "pytest>=8.3.4, <9",
        "marvelous@git+https://github.com/end-to-end-mlops-databricks-3/marvelous@0.1.0",
     ]
-    
+
 test = [
     "pre-commit>=4.1.0, <5",
     "delta-spark==3.3.0",
