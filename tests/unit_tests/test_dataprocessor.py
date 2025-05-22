@@ -90,7 +90,7 @@ def test_column_transformations(sample_data: pd.DataFrame, config: ProjectConfig
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     processor.preprocess()
 
-    assert processor.df["Lead_time"].dtype == "int64"
+    assert processor.df["lead_time"].dtype == "int64"
     assert processor.df["type_of_meal_plan"].dtype == "category"
     assert "arrival_year" not in processor.df.columns
 
@@ -130,7 +130,9 @@ def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_sessi
     :param spark: SparkSession object
     """
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
-    processor.save_to_catalog()
+    processor.preprocess()
+    train, test = processor.split_data()
+    processor.save_to_catalog(train_set=train,test_set=test)
 
     path = f"{config.catalog_name}.{config.schema_name}"
     # not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?

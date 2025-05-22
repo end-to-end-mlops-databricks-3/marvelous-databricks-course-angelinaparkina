@@ -43,7 +43,7 @@ def config() -> ProjectConfig:
     config_file_path = (PROJECT_DIR / "project_config.yml").resolve()
     logger.info(f"Current config file path: {config_file_path.as_posix()}")
     config = ProjectConfig.from_yaml(config_file_path.as_posix())
-
+    
     return config
 
 @pytest.fixture(scope="function")
