@@ -9,7 +9,6 @@ from hotel_reservations import PROJECT_DIR
 from hotel_reservations.config import ProjectConfig, Tags
 from tests.unit_tests.spark_config import spark_config
 
-
 @pytest.fixture(scope="session")
 def spark_session() -> SparkSession:
     """Create and return a SparkSession for testing.
@@ -31,7 +30,6 @@ def spark_session() -> SparkSession:
 
     yield spark
     spark.stop()
-
 
 @pytest.fixture(scope="session")
 def config() -> ProjectConfig:
@@ -63,9 +61,8 @@ def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFr
     # Important Note: Replace NaN with None in Pandas Before Conversion to Spark DataFrame:
     # sample = sample.where(sample.notna(), None)  # noqa
     # sample = spark_session.createDataFrame(sample).toPandas()  # noqa
-    
-    return sample
 
+    return sample
 
 @pytest.fixture(scope="session")
 def tags() -> Tags:
