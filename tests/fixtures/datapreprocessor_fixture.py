@@ -51,7 +51,7 @@ def config() -> ProjectConfig:
 def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFrame:
     """Create a sample DataFrame from a CSV file.
 
-    This fixture reads a CSV file using either Spark or pandas, then converts it to a Pandas DataFrame,
+    This fixture reads a CSV file using either Spark or pandas, then converts it to a Pandas DataFrame.
 
     :return: A sampled Pandas DataFrame containing some sample of the original data.
     """

@@ -9,7 +9,6 @@ class DataReader:
     It will read in and return a pandas dataframe.
 
     """
-
     def __init__(self, file_path: str) -> None:
         self.path = file_path
 
@@ -19,5 +18,4 @@ class DataReader:
         df = pd.read_csv(
             self.path, header=0
         )  # potentially this needs to be more flexible with format specified as parameter
-
         return df

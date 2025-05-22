@@ -69,7 +69,6 @@ lint.select = [
     "E",    # pycodestyle error rules
     "W",    # pycodestyle warning rules
     "B",    # flake8-bugbear rules
-    "I",    # isort rules
     "UP",   # pyupgrade rules
     "SIM",  # flake8-simplify rules
     "C",    # pylint convention rules
@@ -83,6 +82,7 @@ lint.ignore = [
     "E501", # line-too-long
     "C901", # too complex
     "ERA",  # eradicate rules
+    "I",    # isort rules
 ]
 
 [tool.ruff.format]
