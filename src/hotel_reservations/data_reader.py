@@ -7,9 +7,8 @@ class DataReader:
 
     Right now only works for csv format.
     It will read in and return a pandas dataframe.
-
     """
-    
+
     def __init__(self, file_path: str) -> None:
         self.path = file_path
 
