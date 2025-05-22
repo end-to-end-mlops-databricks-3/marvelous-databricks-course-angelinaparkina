@@ -5,9 +5,10 @@ import pytest
 from loguru import logger
 from pyspark.sql import SparkSession
 
-from hotel_reservations import PROJECT_DIR
-from hotel_reservations.config import ProjectConfig, Tags
+from src.hotel_reservations import PROJECT_DIR
+from src.hotel_reservations.config import ProjectConfig, Tags
 from tests.unit_tests.spark_config import spark_config
+
 
 @pytest.fixture(scope="session")
 def spark_session() -> SparkSession:
@@ -54,8 +55,8 @@ def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFr
     :return: A sampled Pandas DataFrame containing some sample of the original data.
     """
     # file_path = PROJECT_DIR / "tests" / "test_data" / "sample.csv"
-    file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/files/Hotel Reservations.csv"
-    sample = pd.read_csv(file_path, header=0)
+    file_path = PROJECT_DIR / "tests" / "test_data" / "sample.csv"
+    sample = pd.read_csv(file_path.as_posix())
 
     # Alternative approach to reading the sample
     # Important Note: Replace NaN with None in Pandas Before Conversion to Spark DataFrame:
