@@ -40,7 +40,6 @@ class DataProcessor:
         cat_features = self.config.cat_features
         self.df[cat_features] = self.df[cat_features].astype('category')
 
-
         #extract target and relevant features
         target = self.config.target
         relevant_cols = cat_features + num_features + [target] + ['Booking_ID']

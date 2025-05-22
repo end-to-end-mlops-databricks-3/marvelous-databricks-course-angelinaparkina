@@ -1,4 +1,4 @@
-""" Data Reader module.""" 
+""" Data Reader module."""
 
 
 import pandas as pd
@@ -21,5 +21,3 @@ class DataReader:
         df = pd.read_csv(self.path,header=0)
 
         return df
-
-

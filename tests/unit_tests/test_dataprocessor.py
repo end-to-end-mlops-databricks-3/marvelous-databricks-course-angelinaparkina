@@ -33,7 +33,7 @@ def test_dataprocessor_init(
     :param sample_data: Sample DataFrame for testing
     :param config: Configuration object for the project
     :param spark: SparkSession object
-    
+
     """
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     assert isinstance(processor.df, pd.DataFrame)
@@ -42,10 +42,9 @@ def test_dataprocessor_init(
     assert isinstance(processor.config, ProjectConfig)
     assert isinstance(processor.spark, SparkSession)
 
-
 def test_na_handling_target(sample_data: pd.DataFrame,config: ProjectConfig,spark_session: SparkSession) -> None:
     """Test missing value handling in the DataProcessor.
-    
+
     This test focuses on testing if the target column has no missing values.
 
     :param sample_data: Input DataFrame containing sample data
@@ -130,7 +129,7 @@ def test_data_save(sample_data: pd.DataFrame,config: ProjectConfig, spark_sessio
     #not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?
     assert DeltaTable.isDeltaTable(spark_session, f"{path}.train_set")
     assert DeltaTable.isDeltaTable(spark_session, f"{path}.test_set")
-    
+
     saved_df_train = spark_session.table(f"{path}.train_set")
     assert not saved_df_train.rdd.isEmpty()
 
