@@ -1,4 +1,4 @@
-"""Spark Configuration module for local testing."""
+"""Spark Configuration module for local tests."""
 
 from pydantic_settings import BaseSettings
 
