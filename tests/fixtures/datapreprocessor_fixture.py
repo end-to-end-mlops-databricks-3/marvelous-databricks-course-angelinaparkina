@@ -54,7 +54,7 @@ def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFr
     :return: A sampled Pandas DataFrame containing some sample of the original data.
     """
     # file_path = PROJECT_DIR / "tests" / "test_data" / "sample.csv"
-    file_path = f"/Volumes/{config.catalog}.{config.schema}/files/Hotel Reservations.csv"
+    file_path = f"/Volumes/{config.catalog_name}.{config.schema_name}/files/Hotel Reservations.csv"
     sample = pd.read_csv(file_path, header=0)
 
     # Alternative approach to reading the sample

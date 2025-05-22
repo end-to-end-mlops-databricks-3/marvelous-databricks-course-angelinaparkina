@@ -132,7 +132,7 @@ def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_sessi
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     processor.save_to_catalog()
 
-    path = f"{config.catalog}.{config.schema}"
+    path = f"{config.catalog_name}.{config.schema_name}"
     # not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?
     assert DeltaTable.isDeltaTable(spark_session, f"{path}.train_set")
     assert DeltaTable.isDeltaTable(spark_session, f"{path}.test_set")
