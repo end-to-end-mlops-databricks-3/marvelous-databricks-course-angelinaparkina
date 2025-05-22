@@ -134,4 +134,3 @@ def test_data_save(sample_data: pd.DataFrame,config: ProjectConfig, spark_sessio
 
     saved_df_test = spark_session.table(f"{path}.test_set")
     assert not saved_df_test.rdd.isEmpty()
-    

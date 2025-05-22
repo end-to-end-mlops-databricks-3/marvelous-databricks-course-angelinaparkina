@@ -11,13 +11,11 @@ class DataReader:
     """
     
     def __init__(self,file_path: str) -> None:
-        #do i also need to specify requirements for file path into the parameters..or should i place the path into project config and read it in from there
         self.path = file_path
 
     def read_csv(self) -> pd.DataFrame:
         """Read in csv file and returns a pandas dataframe."""
-        #potentially this needs to be more flexible with format specified as parameter
-
-        df = pd.read_csv(self.path,header=0)
-
+        
+        df = pd.read_csv(self.path,header=0) #potentially this needs to be more flexible with format specified as parameter
+        
         return df

@@ -65,9 +65,7 @@ class DataProcessor:
         :param test_set: The test DataFrame to be saved.
         """
          train_set_with_timestamp = self.spark.createDataFrame(train_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
-
          test_set_with_timestamp = self.spark.createDataFrame(test_set).withColumn("update_timestamp_utc",f.to_utc_timestamp(f.current_timestamp(),"UTC"))
-
          train_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.train_set")
          test_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.test_set")
 

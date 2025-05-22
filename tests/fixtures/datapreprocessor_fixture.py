@@ -70,4 +70,3 @@ def tags() -> Tags:
     This fixture provides a Tags object with predefined values for git_sha, branch, and job_run_id.
     """
     return Tags(git_sha="wxyz", branch="test", job_run_id="9")
-    

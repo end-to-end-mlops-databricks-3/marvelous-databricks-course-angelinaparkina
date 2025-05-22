@@ -1,10 +1,8 @@
 """Configuration file for the project."""
 
 from typing import Any
-
 import yaml
 from pydantic import BaseModel
-
 
 class ProjectConfig(BaseModel):
     """Represent project configuration parameters loaded from YAML.
@@ -48,4 +46,3 @@ class Tags(BaseModel):
     git_sha: str
     branch: str
     job_run_id: str
-    
