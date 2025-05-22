@@ -1,9 +1,8 @@
 """Unit tests for DataProcessor."""
 
-import pandas as pd
-import pytest
 from conftest import CATALOG_DIR
 from delta.tables import DeltaTable
+import pandas as pd
 from pyspark.sql import SparkSession
 
 from hotel_reservations.config import ProjectConfig
@@ -135,3 +134,4 @@ def test_data_save(sample_data: pd.DataFrame,config: ProjectConfig, spark_sessio
 
     saved_df_test = spark_session.table(f"{path}.test_set")
     assert not saved_df_test.rdd.isEmpty()
+    

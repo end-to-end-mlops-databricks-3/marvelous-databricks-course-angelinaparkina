@@ -3,8 +3,6 @@
 import importlib.metadata
 import importlib.resources
 from pathlib import Path
-# from .data_processor import DataProcessor
-# from .data_reader import DataReader
 
 THIS_DIR = Path(__file__).parent
 PROJECT_DIR = (THIS_DIR / "../..").resolve()
@@ -25,6 +23,5 @@ def get_version() -> str:
         # If not installed, read from the version.txt file
         with importlib.resources.files(__package__).joinpath("../../version.txt").open("r", encoding="utf-8") as file:
             return file.read().strip()
-
 
 __version__ = get_version()

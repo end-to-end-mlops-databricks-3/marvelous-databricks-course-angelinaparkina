@@ -1,4 +1,4 @@
-""" Script for first week of the course."""
+"""Script for first week of the course."""
 # COMMAND ----------|^
 # %pip install -e ..
 
@@ -14,18 +14,17 @@
 # sys.path.append(str(Path.cwd().parent / 'src'))
 
 # COMMAND ----------|^
-import pandas as pd
-import yaml
-from pyspark.sql import SparkSession
-from loguru import logger
+from hotel_reservations import DataProcessor, DataReader
 from hotel_reservations.config import ProjectConfig
-from hotel_reservations import DataReader,DataProcessor
+from loguru import logger
 from marvelous.logging import setup_logging
 from marvelous.timer import Timer
+from pyspark.sql import SparkSession
+import yaml
 
 # COMMAND ----------|^
 
-config_path = f"../project_config.yml"
+config_path = "../project_config.yml"
 
 config = ProjectConfig.from_yaml(config_path=config_path,env="dev")
 

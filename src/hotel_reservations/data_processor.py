@@ -2,26 +2,24 @@
 """Data preprocessing module."""
 
 import pandas as pd
-import datetime
-from pyspark.sql import SparkSession
 import pyspark.sql.functions as f
 from sklearn.model_selection import train_test_split
 from src.hotel_reservations.config import ProjectConfig
 
 class DataProcessor:
-
     """A class for preprocessing and managing DataFrame operations.
 
     This class handles data preprocessing, splitting, and saving to Databricks tables.
 
     """
+
     def __init__(self,pandas_df: pd.DataFrame,config:ProjectConfig,spark: SparkSession) -> None:
         self.df = pandas_df
         self.config = config
         self.spark = spark
     
     def preprocess(self) -> None:
-        """ Preprocess the df stored in self.df.
+        """Preprocess the df stored in self.df.
         
         This method handles missing values, converts data types, and performs feature engineering.
         
@@ -30,7 +28,7 @@ class DataProcessor:
         self.df = self.df.drop_duplicates()
         
         #handle missing values
-        self.df[self.config.target].dropna() #a test can be made to check whether this works
+        self.df[self.config.target].dropna()
 
         #convert numerical features to numerical type
         num_features = self.config.num_features
@@ -61,7 +59,7 @@ class DataProcessor:
         return train_set,test_set
     
     def save_to_catalog(self,train_set: pd.DataFrame,test_set: pd.DataFrame) -> None:
-         """Save the train and test sets into Databricks tables.
+        """Save the train and test sets into Databricks tables.
 
         :param train_set: The training DataFrame to be saved.
         :param test_set: The test DataFrame to be saved.
@@ -79,11 +77,11 @@ class DataProcessor:
         This method alters the tables to enable Change Data Feed functionality.
         """
         self.spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set "
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
             "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
         )
 
         self.spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set"
             "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
         )
