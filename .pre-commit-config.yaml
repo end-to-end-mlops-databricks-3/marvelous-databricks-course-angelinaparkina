@@ -12,6 +12,7 @@ repos:
         args: ["--unsafe"]
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        args: ["--diff"]
       - id: detect-private-key
       - id: forbid-new-submodules
       - id: check-docstring-first
@@ -19,5 +20,6 @@ repos:
     rev: v0.9.5
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix, --show-fixes]
+        args: [--fix, --exit-non-zero-on-fix, --show-fixes,--diff]
       - id: ruff-format
+        args: ["--diff"]

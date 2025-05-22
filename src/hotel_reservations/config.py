@@ -1,8 +1,9 @@
 """Configuration file for the project."""
 
-from typing import Any
 import yaml
 from pydantic import BaseModel
+from typing import Any
+
 
 class ProjectConfig(BaseModel):
     """Represent project configuration parameters loaded from YAML.
@@ -27,7 +28,9 @@ class ProjectConfig(BaseModel):
         :return: ProjectConfig instance initialized with parsed configuration
         """
         if env not in ["prd", "acc", "dev"]:
-            raise ValueError(f"Invalid environment: {env}. Expected 'prd', 'acc', or 'dev'")
+            raise ValueError(
+                f"Invalid environment: {env}. Expected 'prd', 'acc', or 'dev'"
+            )
 
         with open(config_path) as f:
             config_dict = yaml.safe_load(f)

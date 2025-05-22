@@ -1,8 +1,8 @@
 """Unit tests for DataProcessor."""
 
+import pandas as pd
 from conftest import CATALOG_DIR
 from delta.tables import DeltaTable
-import pandas as pd
 from pyspark.sql import SparkSession
 
 from hotel_reservations.config import ProjectConfig
