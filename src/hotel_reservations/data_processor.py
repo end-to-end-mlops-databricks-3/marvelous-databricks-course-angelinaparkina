@@ -15,9 +15,7 @@ class DataProcessor:
 
     """
 
-    def __init__(
-        self, pandas_df: pd.DataFrame, config: ProjectConfig, spark: SparkSession
-    ) -> None:
+    def __init__(self, pandas_df: pd.DataFrame, config: ProjectConfig, spark: SparkSession) -> None:
         self.df = pandas_df
         self.config = config
         self.spark = spark
@@ -36,9 +34,7 @@ class DataProcessor:
 
         # convert numerical features to numerical type
         num_features = self.config.num_features
-        self.df[num_features] = self.df[num_features].apply(
-            pd.to_numeric, errors="coerce"
-        )
+        self.df[num_features] = self.df[num_features].apply(pd.to_numeric, errors="coerce")
 
         # convert categorical features to categorical type
         cat_features = self.config.cat_features
@@ -51,22 +47,16 @@ class DataProcessor:
         self.df["Booking_ID"] = self.df["Booking_ID"].astype(str)
 
         # change target data type to binary
-        self.df[target] = (
-            self.df[target].map({"Not_Canceled": 0, "Canceled": 1}).astype(int)
-        )
+        self.df[target] = (self.df[target].map({"Not_Canceled": 0, "Canceled": 1}).astype(int))
 
-    def split_data(
-        self, test_size: float = 0.2, random_state: int = 42
-    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+    def split_data(self, test_size: float = 0.2, random_state: int = 42) -> tuple[pd.DataFrame, pd.DataFrame]:
         """Split the DataFrame (self.df) into training and test sets.
 
         :param test_size: The proportion of the dataset to include in the test split.
         :param random_state: Controls the shuffling applied to the data before applying the split.
         :return: A tuple containing the training and test DataFrames.
         """
-        train_set, test_set = train_test_split(
-            self.df, test_size=test_size, random_state=random_state
-        )
+        train_set, test_set = train_test_split(self.df, test_size=test_size, random_state=random_state)
 
         return train_set, test_set
 
@@ -83,12 +73,8 @@ class DataProcessor:
             "update_timestamp_utc", f.to_utc_timestamp(f.current_timestamp(), "UTC")
         )
 
-        train_set_with_timestamp.write.mode("overwrite").saveAsTable(
-            f"{self.config.catalog_name}.{self.config.schema_name}.train_set"
-        )
-        test_set_with_timestamp.write.mode("overwrite").saveAsTable(
-            f"{self.config.catalog_name}.{self.config.schema_name}.test_set"
-        )
+        train_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.train_set")
+        test_set_with_timestamp.write.mode("overwrite").saveAsTable(f"{self.config.catalog_name}.{self.config.schema_name}.test_set")
 
     def enable_change_data_feed(self) -> None:
         """Enable Change Data Feed for train and test set tables.

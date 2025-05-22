@@ -32,9 +32,7 @@ config = ProjectConfig.from_yaml(config_path=config_path, env="dev")
 
 # temp_log_file_path = "/tmp/logs/marvelous-1.log"
 
-log_file_path = (
-    f"/Volumes/{config.catalog_name}/{config.schema_name}/logs/marvelous-1.log"
-)
+log_file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/logs/marvelous-1.log"
 
 setup_logging(log_file=log_file_path)
 
@@ -47,9 +45,7 @@ spark = SparkSession.builder.getOrCreate()
 
 # COMMAND ----------|^
 
-data_path = (
-    f"/Volumes/{config.catalog_name}/{config.schema_name}/files/Hotel Reservations.csv"
-)
+data_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/files/Hotel Reservations.csv"
 
 # COMMAND ----------|^
 

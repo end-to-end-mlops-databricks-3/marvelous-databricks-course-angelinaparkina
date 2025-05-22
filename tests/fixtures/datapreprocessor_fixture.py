@@ -32,6 +32,7 @@ def spark_session() -> SparkSession:
     yield spark
     spark.stop()
 
+
 @pytest.fixture(scope="session")
 def config() -> ProjectConfig:
     """Load and return the project configuration.
@@ -43,6 +44,7 @@ def config() -> ProjectConfig:
     config_file_path = (PROJECT_DIR / "project_config.yml").resolve()
     logger.info(f"Current config file path: {config_file_path.as_posix()}")
     config = ProjectConfig.from_yaml(config_file_path.as_posix())
+
     return config
 
 @pytest.fixture(scope="function")
@@ -55,13 +57,15 @@ def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFr
     """
     # file_path = PROJECT_DIR / "tests" / "test_data" / "sample.csv"
     file_path = f"/Volumes/{config.catalog}.{config.schema}/files/Hotel Reservations.csv"
-    sample = pd.read_csv(file_path,header=0)
+    sample = pd.read_csv(file_path, header=0)
 
     # Alternative approach to reading the sample
     # Important Note: Replace NaN with None in Pandas Before Conversion to Spark DataFrame:
     # sample = sample.where(sample.notna(), None)  # noqa
     # sample = spark_session.createDataFrame(sample).toPandas()  # noqa
+    
     return sample
+
 
 @pytest.fixture(scope="session")
 def tags() -> Tags:
