@@ -12,6 +12,7 @@ from hotel_reservations.data_processor import DataProcessor
 # create test that check whether the amount of features we specify in config is the same as number of columns in the df
 # test to check for data types
 
+
 def test_data_ingestion(sample_data: pd.DataFrame) -> None:
     """Test the data ingestion process by checking the shape of the sample data.
 
@@ -44,7 +45,7 @@ def test_dataprocessor_init(
     assert isinstance(processor.spark, SparkSession)
 
 
-def test_na_handling_target(sample_data: pd.DataFrame, config: ProjectConfig,spark_session: SparkSession) -> None:
+def test_na_handling_target(sample_data: pd.DataFrame, config: ProjectConfig, spark_session: SparkSession) -> None:
     """Test missing value handling in the DataProcessor.
 
     This test focuses on testing if the target column has no missing values.
@@ -132,7 +133,7 @@ def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_sessi
     processor = DataProcessor(pandas_df=sample_data, config=config, spark=spark_session)
     processor.preprocess()
     train, test = processor.split_data()
-    processor.save_to_catalog(train_set=train,test_set=test)
+    processor.save_to_catalog(train_set=train, test_set=test)
 
     path = f"{config.catalog_name}.{config.schema_name}"
     # not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?

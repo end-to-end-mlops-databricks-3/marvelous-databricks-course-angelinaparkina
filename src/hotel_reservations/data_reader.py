@@ -2,6 +2,7 @@
 
 import pandas as pd
 
+
 class DataReader:
     """Takes care of reading in the data. It needs a path pointing to where the data resides.
 

@@ -9,6 +9,7 @@ from src.hotel_reservations import PROJECT_DIR
 from src.hotel_reservations.config import ProjectConfig, Tags
 from tests.unit_tests.spark_config import spark_config
 
+
 @pytest.fixture(scope="session")
 def spark_session() -> SparkSession:
     """Create and return a SparkSession for testing.
@@ -30,6 +31,7 @@ def spark_session() -> SparkSession:
     yield spark
     spark.stop()
 
+
 @pytest.fixture(scope="session")
 def config() -> ProjectConfig:
     """Load and return the project configuration.
@@ -42,6 +44,7 @@ def config() -> ProjectConfig:
     logger.info(f"Current config file path: {config_file_path.as_posix()}")
     config = ProjectConfig.from_yaml(config_file_path.as_posix())
     return config
+
 
 @pytest.fixture(scope="function")
 def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFrame:
@@ -59,6 +62,7 @@ def sample_data(config: ProjectConfig, spark_session: SparkSession) -> pd.DataFr
     # sample = sample.where(sample.notna(), None)  # noqa
     # sample = spark_session.createDataFrame(sample).toPandas()  # noqa
     return sample
+
 
 @pytest.fixture(scope="session")
 def tags() -> Tags:
