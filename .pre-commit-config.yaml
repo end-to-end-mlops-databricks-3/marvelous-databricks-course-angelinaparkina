@@ -11,7 +11,7 @@ repos:
       - id: check-yaml
         args: ["--unsafe"]
       - id: end-of-file-fixer
-      # - id: trailing-whitespace
+      - id: trailing-whitespace
       - id: detect-private-key
       - id: forbid-new-submodules
       - id: check-docstring-first
@@ -20,5 +20,4 @@ repos:
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix, --show-fixes]
-      # - id: ruff-format
-      #   args: ["--diff"]
+      - id: ruff-format

@@ -9,9 +9,9 @@
 # %restart_python
 
 # COMMAND ----------|^
-# from pathlib import Path
-# import sys
-# sys.path.append(str(Path.cwd().parent / 'src'))
+from pathlib import Path
+import sys
+sys.path.append(str(Path.cwd().parent / 'src'))
 
 # COMMAND ----------|^
 import yaml
@@ -21,8 +21,8 @@ from pyspark.sql import SparkSession
 from marvelous.logging import setup_logging
 from marvelous.timer import Timer
 
-from hotel_reservations import DataProcessor, DataReader
-from hotel_reservations.config import ProjectConfig
+from src.hotel_reservations import DataProcessor, DataReader
+from src.hotel_reservations.config import ProjectConfig
 
 # COMMAND ----------|^
 
