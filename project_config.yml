@@ -5,6 +5,9 @@ dev:
   catalog_name: mlops_dev
   schema_name: angelina
 
+experiment_name_basic: /Shared/hotel-reservations-basic
+experiment_name_custom: /Shared/hotel-reservations-custom
+
 # everything related to features, configuration can be put here
 parameters:
   learning_rate: 0.01
