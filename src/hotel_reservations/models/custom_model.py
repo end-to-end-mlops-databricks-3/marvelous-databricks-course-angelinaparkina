@@ -34,7 +34,7 @@ class HotelReservationsModelWrapper(mlflow.pyfunc.PythonModel):
     """
 
     def __init__(self, params: dict) -> None:
-        """Initializes the model for the class.
+        """Initialize the model for the class.
 
         :param: params: The hyperparameters to the model.
         """
@@ -68,6 +68,7 @@ class HotelReservationsModelWrapper(mlflow.pyfunc.PythonModel):
 
     def predict(self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame) -> np.ndarray:
         """Make predictions using the trained model.
+        
         :param context: The MLflow context (unused in this implementation).
         :param model_input: Input data for making predictions.
         :return: A pd.DataFrame containing the predictions.

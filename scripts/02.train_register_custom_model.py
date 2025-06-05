@@ -1,3 +1,5 @@
+"""Train and register a custom model."""
+
 import argparse
 
 import mlflow

@@ -13,12 +13,16 @@ import mlflow
 import pandas as pd
 from lightgbm import LGBMClassifier
 from loguru import logger
+from mlflow import MlflowClient
+from mlflow.data.dataset_source import DatasetSource
 from mlflow.models import infer_signature
 from pyspark.sql import SparkSession
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+
+from hotel_reservations.config import ProjectConfig, Tags
 
 
 class BasicModel:
@@ -104,25 +108,25 @@ class BasicModel:
             y_pred = self.pipeline.predict(self.X_test)
 
             # Evaluate metrics
-            accuracy_score = accuracy_score(self.y_test, y_pred)
-            f1_score = f1_score(self.y_test, y_pred)
-            precision_score = precision_score(self.y_test, y_pred)
-            recall_score = recall_score(self.y_test, y_pred)
+            accuracy = accuracy_score(self.y_test, y_pred)
+            f1 = f1_score(self.y_test, y_pred)
+            precision = precision_score(self.y_test, y_pred)
+            recall = recall_score(self.y_test, y_pred)
 
-            logger.info(f"📊 Accuracy: {accuracy_score}")
-            logger.info(f"📊 F1-score: {f1_score}")
-            logger.info(f"📊 Precision: {precision_score}")
-            logger.info(f"📊 Recall: {recall_score}")
+            logger.info(f"📊 Accuracy: {accuracy}")
+            logger.info(f"📊 F1-score: {f1}")
+            logger.info(f"📊 Precision: {precision}")
+            logger.info(f"📊 Recall: {recall}")
 
             # Log parameters and metrics
             mlflow.log_param("model_type", "LightGBM with preprocessing")
             mlflow.log_params(self.parameters)
             mlflow.log_metrics(
                 {
-                    "accuracy": accuracy_score,
-                    "f1_score": f1_score,
-                    "precision": precision_score,
-                    "recall": recall_score,
+                    "accuracy": accuracy,
+                    "f1_score": f1,
+                    "precision": precision,
+                    "recall": recall,
                 }
             )
 
@@ -187,7 +191,7 @@ class BasicModel:
         """
         logger.info("🔄 Loading model from MLflow alias 'production'...")
 
-        model_uti = f"models:/{self.model_name}@latest-model"
+        model_uri = f"models:/{self.model_name}@latest-model"
         model = mlflow.sklearn.load_model(model_uri)
 
         logger.info("✅ Model successfully loaded.")
