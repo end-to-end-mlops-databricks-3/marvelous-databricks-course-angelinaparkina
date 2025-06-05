@@ -65,9 +65,7 @@ tags_dict = {"git_sha": args.git_sha, "branch": args.branch}
 tags = Tags(**tags_dict)
 
 # Initialize model
-custom_model = CustomModel(
-    config=config, tags=tags, spark=spark, code_paths=["../src"]
-)
+custom_model = CustomModel(config=config, tags=tags, spark=spark, code_paths=["../src"])
 logger.info("Model initialized.")
 
 # Load data and prepare features

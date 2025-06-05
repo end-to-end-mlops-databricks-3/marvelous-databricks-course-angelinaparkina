@@ -9,8 +9,6 @@ parameters → Hyperparameters for LightGBM.
 catalog_name, schema_name → Database schema names for Databricks tables.
 """
 
-from typing import Literal
-
 import mlflow
 import numpy as np
 import pandas as pd
@@ -51,9 +49,7 @@ class HotelReservationsModelWrapper(mlflow.pyfunc.PythonModel):
         """
         logger.info("🔄 Defining preprocessing pipeline...")
         self.preprocessor = ColumnTransformer(
-            transformers=[
-                ("cat", OneHotEncoder(handle_unknown="ignore"), cat_features)
-            ],
+            transformers=[("cat", OneHotEncoder(handle_unknown="ignore"), cat_features)],
             remainder="passthrough",
         )
 
@@ -70,9 +66,7 @@ class HotelReservationsModelWrapper(mlflow.pyfunc.PythonModel):
         logger.info("🚀 Starting training...")
         self.pipeline.fit(X_train, y_train)
 
-    def predict(
-        self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame
-    ) -> np.ndarray:
+    def predict(self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame) -> np.ndarray:
         """Make predictions using the trained model.
         :param context: The MLflow context (unused in this implementation).
         :param model_input: Input data for making predictions.
@@ -114,9 +108,7 @@ class CustomModel:
 
         # Extract model-related information
         self.experiment_name = self.config.experiment_name_custom
-        self.model_name = (
-            f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_custom"
-        )
+        self.model_name = f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_custom"
         self.tags = tags.dict()
         self.code_paths = code_paths
 
@@ -126,16 +118,10 @@ class CustomModel:
         Splits data into features (X_train, X_test) and target (y_train, y_test).
         """
         logger.info("🔄 Loading data from Databricks tables...")
-        self.train_set_spark = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.train_set"
-        )
+        self.train_set_spark = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set")
         self.train_set = self.train_set_spark.toPandas()
-        self.test_set = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.test_set"
-        ).toPandas()
-        self.data_version = (
-            "0"  # describe history -> retrieve. what if it's not the right version?
-        )
+        self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").toPandas()
+        self.data_version = "0"  # describe history -> retrieve. what if it's not the right version?
 
         self.X_train = self.train_set[self.num_features + self.cat_features]
         self.y_train = self.train_set[self.target]
@@ -154,12 +140,10 @@ class CustomModel:
         with mlflow.start_run(tags=self.tags) as run:
             self.run_id = run.info.run_id
 
-            model = HotelReservationsModelWrapper(
-                params=self.parameters
-            )
+            model = HotelReservationsModelWrapper(params=self.parameters)
             model.prepare_features(self.cat_features)
             model.train(self.X_train, self.y_train)
-            y_pred = model.predict(context = None, model_input = self.X_test)
+            y_pred = model.predict(context=None, model_input=self.X_test)
 
             # Evaluate metrics
             accuracy = accuracy_score(self.y_test, y_pred)
@@ -216,9 +200,7 @@ class CustomModel:
         latest_version = registered_model.version
 
         client = MlflowClient()
-        client.set_registered_model_alias(
-            name=self.model_name, alias="latest-model", version=latest_version
-        )
+        client.set_registered_model_alias(name=self.model_name, alias="latest-model", version=latest_version)
 
     def retrieve_current_run_dataset(self) -> DatasetSource:
         """Retrieve Mlflow run dataset.

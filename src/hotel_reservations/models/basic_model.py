@@ -10,7 +10,6 @@ catalog_name, schema_name -> Database schema names for Databricks tables.
 """
 
 import mlflow
-import numpy as np
 import pandas as pd
 from lightgbm import LGBMClassifier
 from loguru import logger
@@ -52,9 +51,7 @@ class BasicModel:
 
         # Extract model-related information
         self.experiment_name = self.config.experiment_name_basic
-        self.model_name = (
-            f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_basic"
-        )
+        self.model_name = f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_basic"
         self.tags = tags.dict()
 
     def load_data(self) -> None:
@@ -63,16 +60,10 @@ class BasicModel:
         Splits data into features (X_train, X_test) and target (y_train, y_test).
         """
         logger.info("🔄 Loading data from Databricks tables...")
-        self.train_set_spark = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.train_set"
-        )
+        self.train_set_spark = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set")
         self.train_set = self.train_set_spark.toPandas()
-        self.test_set = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.test_set"
-        ).toPandas()
-        self.data_version = (
-            "0"  # describe history -> retrieve. what if it's not the right version?
-        )
+        self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").toPandas()
+        self.data_version = "0"  # describe history -> retrieve. what if it's not the right version?
 
         self.X_train = self.train_set[self.num_features + self.cat_features]
         self.y_train = self.train_set[self.target]
@@ -87,9 +78,7 @@ class BasicModel:
         """
         logger.info("🔄 Defining preprocessing pipeline...")
         self.preprocessor = ColumnTransformer(
-            transformers=[
-                ("cat", OneHotEncoder(handle_unknown="ignore"), self.cat_features)
-            ],
+            transformers=[("cat", OneHotEncoder(handle_unknown="ignore"), self.cat_features)],
             remainder="passthrough",
         )
 
@@ -168,7 +157,7 @@ class BasicModel:
 
     def retrieve_current_run_dataset(self) -> DatasetSource:
         """Retrieve Mlflow run dataset.
-        
+
         :return: Loaded dataset source
         """
         run = mlflow.get_run(self.run_id)
@@ -176,7 +165,7 @@ class BasicModel:
         dataset_source = mlflow.data.get_source(dataset_info)
         logger.info("✅ Dataset source loaded.")
         return dataset_source.load()
-    
+
     def retrieve_current_run_metadata(self) -> tuple[dict, dict]:
         """Retrieve Mlflow run metadata.
 
@@ -187,7 +176,7 @@ class BasicModel:
         params = run.data.to_dictionary()["params"]
         logger.info("✅ Run metadata loaded.")
         return metrics, params
-    
+
     def load_latest_model_and_predict(self, input_data: pd.DataFrame) -> pd.DataFrame:
         """Load the latest model from Mlflow (alias=latest-model) and make predictions.
 

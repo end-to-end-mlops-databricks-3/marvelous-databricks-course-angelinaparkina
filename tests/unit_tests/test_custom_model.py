@@ -3,17 +3,10 @@
 import mlflow
 import pandas as pd
 from conftest import CATALOG_DIR, TRACKING_URI
-from lightgbm import LGBMClassifier
-from loguru import logger
-from mlflow.entities.model_registry.registered_model import RegisteredModel
-from mlflow.tracking import MlflowClient
 from pyspark.sql import SparkSession
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 
 from hotel_reservations.config import ProjectConfig, Tags
 from hotel_reservations.models.custom_model import CustomModel
-from hotel_reservations.models.custom_model import HotelReservationsModelWrapper
 
 mlflow.set_tracking_uri(TRACKING_URI)
 
