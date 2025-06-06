@@ -128,3 +128,4 @@ def mock_custom_model(config: ProjectConfig, tags: Tags, spark_session: SparkSes
     instance.spark = mock_spark
 
     return instance
+    
