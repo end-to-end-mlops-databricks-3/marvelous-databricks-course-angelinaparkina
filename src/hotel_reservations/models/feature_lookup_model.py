@@ -1,7 +1,5 @@
 """Feature Lookup model implementation."""
 
-from datetime import datetime
-
 import mlflow
 import numpy as np
 import pandas as pd
@@ -34,9 +32,7 @@ class HotelReservationsModelWrapperFE(mlflow.pyfunc.PythonModel):
         """
         self.model = model
 
-    def predict(
-        self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame
-    ) -> np.ndarray:
+    def predict(self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame) -> np.ndarray:
         """Make predictions using the trained model.
 
         :param context: The MLflow context (unused in this implementation).
@@ -68,12 +64,8 @@ class FeatureLookUpModel:
         self.schema_name = self.config.schema_name
 
         # Define table names and function name
-        self.feature_table_name = (
-            f"{self.catalog_name}.{self.schema_name}.hotel_features"
-        )
-        self.function_name = (
-            f"{self.catalog_name}.{self.schema_name}.calculate_last_minute_trip"
-        )
+        self.feature_table_name = f"{self.catalog_name}.{self.schema_name}.hotel_features"
+        self.function_name = f"{self.catalog_name}.{self.schema_name}.calculate_last_minute_trip"
 
         # MLflow configuration
         self.experiment_name = self.config.experiment_name_fe
@@ -90,12 +82,8 @@ class FeatureLookUpModel:
         (Booking_ID STRING NOT NULL, avg_price_per_room FLOAT, room_type_reserved STRING, repeated_guest INT);
         """
         )
-        self.spark.sql(
-            f"ALTER TABLE {self.feature_table_name} ADD CONSTRAINT hotel_pk PRIMARY KEY(Booking_ID);"
-        )
-        self.spark.sql(
-            f"ALTER TABLE {self.feature_table_name} SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
-        )
+        self.spark.sql(f"ALTER TABLE {self.feature_table_name} ADD CONSTRAINT hotel_pk PRIMARY KEY(Booking_ID);")
+        self.spark.sql(f"ALTER TABLE {self.feature_table_name} SET TBLPROPERTIES (delta.enableChangeDataFeed = true);")
 
         self.spark.sql(
             f"INSERT INTO {self.feature_table_name} SELECT Booking_ID, avg_price_per_room, room_type_reserved, repeated_guest FROM {self.catalog_name}.{self.schema_name}.train_set"
@@ -127,12 +115,10 @@ class FeatureLookUpModel:
 
         Drops specified columns.
         """
-        self.train_set = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.train_set"
-        ).drop("avg_price_per_room", "room_type_reserved", "repeated_guest")
-        self.test_set = self.spark.table(
-            f"{self.catalog_name}.{self.schema_name}.test_set"
-        ).toPandas()
+        self.train_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.train_set").drop(
+            "avg_price_per_room", "room_type_reserved", "repeated_guest"
+        )
+        self.test_set = self.spark.table(f"{self.catalog_name}.{self.schema_name}.test_set").toPandas()
 
         logger.info("✅ Data successfully loaded.")
 
@@ -167,13 +153,9 @@ class FeatureLookUpModel:
 
         self.test_set["last_minute_booking"] = (self.test_set["lead_time"] < 3).astype(int)
 
-        self.X_train = self.training_df[
-            self.num_features + self.cat_features + ["last_minute_booking"]
-        ]
+        self.X_train = self.training_df[self.num_features + self.cat_features + ["last_minute_booking"]]
         self.y_train = self.training_df[self.target]
-        self.X_test = self.test_set[
-            self.num_features + self.cat_features + ["last_minute_booking"]
-        ]
+        self.X_test = self.test_set[self.num_features + self.cat_features + ["last_minute_booking"]]
         self.y_test = self.test_set[self.target]
 
         logger.info("✅ Feature engineering completed.")
@@ -186,9 +168,7 @@ class FeatureLookUpModel:
         logger.info("🚀 Starting training...")
 
         preprocessor = ColumnTransformer(
-            transformers=[
-                ("cat", OneHotEncoder(handle_unknown="ignore"), self.cat_features)
-            ],
+            transformers=[("cat", OneHotEncoder(handle_unknown="ignore"), self.cat_features)],
             remainder="passthrough",
         )
 
@@ -245,7 +225,7 @@ class FeatureLookUpModel:
         """
         registered_model = mlflow.register_model(
             model_uri=f"runs:/{self.run_id}/pyfunc-lightgbm-hotel-model-fe",
-            name = f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_fe",
+            name=f"{self.catalog_name}.{self.schema_name}.hotel_reservations_model_fe",
             tags=self.tags,
         )
 
