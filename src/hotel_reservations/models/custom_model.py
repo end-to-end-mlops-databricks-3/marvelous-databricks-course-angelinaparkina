@@ -68,7 +68,7 @@ class HotelReservationsModelWrapper(mlflow.pyfunc.PythonModel):
 
     def predict(self, context: mlflow.pyfunc.PythonModelContext, model_input: pd.DataFrame) -> np.ndarray:
         """Make predictions using the trained model.
-        
+
         :param context: The MLflow context (unused in this implementation).
         :param model_input: Input data for making predictions.
         :return: A pd.DataFrame containing the predictions.
