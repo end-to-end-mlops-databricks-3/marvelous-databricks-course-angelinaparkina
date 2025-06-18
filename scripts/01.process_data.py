@@ -19,7 +19,6 @@ import yaml
 from loguru import logger
 from pyspark.sql import SparkSession
 
-from marvelous.logging import setup_logging
 from marvelous.timer import Timer
 
 from hotel_reservations.data_processor import DataProcessor

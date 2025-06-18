@@ -2,10 +2,7 @@
 
 # COMMAND ----------|^
 import os
-import time
-from typing import Dict, List
 
-import requests
 from loguru import logger
 from pyspark.dbutils import DBUtils
 from pyspark.sql import SparkSession
@@ -52,7 +49,7 @@ logger.info("Started deployment/update of the serving endpoint.")
 
 # COMMAND ----------|^
 # Delete endpoint if test
-if is_test==1:
+if is_test == 1:
     workspace = WorkspaceClient()
     workspace.serving_endpoints.delete(name=endpoint_name)
     logger.info("Deleting serving endpoint.")

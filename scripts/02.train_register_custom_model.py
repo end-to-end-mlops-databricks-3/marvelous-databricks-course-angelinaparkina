@@ -1,7 +1,6 @@
 """Train and register a custom model."""
 
 # COMMAND ----------|^
-import argparse
 
 import mlflow
 from loguru import logger
@@ -74,7 +73,12 @@ tags = Tags(**tags_dict)
 
 # COMMAND ----------|^
 # Initialize model
-custom_model = CustomModel(config=config, tags=tags, spark=spark, code_paths=[f"../dist/hotel_reservations-{hotel_reservations_v}-py3-none-any.whl"])
+custom_model = CustomModel(
+    config=config,
+    tags=tags,
+    spark=spark,
+    code_paths=[f"../dist/hotel_reservations-{hotel_reservations_v}-py3-none-any.whl"],
+)
 logger.info("Model initialized.")
 
 # COMMAND ----------|^
@@ -92,7 +96,7 @@ logger.info("Model training completed.")
 # Evaluate model
 test_set = spark.table(f"{config.catalog_name}.{config.schema_name}.test_set").limit(100).toPandas()
 
-model_improved = custom_model.model_improved(test_set = test_set)
+model_improved = custom_model.model_improved(test_set=test_set)
 logger.info("Model evaluation completed, model improved: ", model_improved)
 
 is_test = args.is_test
@@ -105,8 +109,8 @@ if model_improved:
     # Register the model
     latest_version = custom_model.register_model()
     logger.info("Registered model with version: ", latest_version)
-    dbutils.jobs.taskValues.set(key = "model_version", value = latest_version)
-    dbutils.jobs.taskValues.set(key = "model_updated", value = 1)
+    dbutils.jobs.taskValues.set(key="model_version", value=latest_version)
+    dbutils.jobs.taskValues.set(key="model_updated", value=1)
 
 else:
-    dbutils.jobs.taskValues.set(key = "model_updated", value = 0)
+    dbutils.jobs.taskValues.set(key="model_updated", value=0)

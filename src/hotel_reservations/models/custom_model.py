@@ -18,8 +18,7 @@ from mlflow import MlflowClient
 from mlflow.data.dataset_source import DatasetSource
 from mlflow.models import infer_signature
 from mlflow.utils.environment import _mlflow_conda_env
-from pyspark.sql import DataFrame, SparkSession
-import pyspark.sql.functions as f
+from pyspark.sql import SparkSession
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.pipeline import Pipeline
@@ -246,7 +245,7 @@ class CustomModel:
 
         # Return predictions as a DataFrame
         return predictions
-    
+
     def model_improved(self, test_set: pd.DataFrame) -> bool:
         """Evaluate the model performance on the test set.
 
@@ -255,7 +254,7 @@ class CustomModel:
         :return: True if the current model performs better, False otherwise.
         """
         y_test = np.array(test_set[[self.config.target]]).flatten()
-        X_test = test_set.drop([self.config.target], axis = 1)
+        X_test = test_set.drop([self.config.target], axis=1)
 
         predictions_latest = self.load_latest_model_and_predict(X_test)
 
@@ -277,8 +276,8 @@ class CustomModel:
         # Calculate the Mean Absolute Error (MAE) for each model
         # error_current = df.agg(f.sum("error_current")).collect()[0][0]
         # error_latest = df.agg(f.sum("error_latest")).collect()[0][0]
-        error_current = sum(abs(truth - current) for truth, current in zip(y_test, predictions_current))
-        error_latest = sum(abs(truth - latest) for truth, latest in zip(y_test, predictions_latest))
+        error_current = sum(abs(truth - current) for truth, current in zip(y_test, predictions_current, strict=False))
+        error_latest = sum(abs(truth - latest) for truth, latest in zip(y_test, predictions_latest, strict=False))
 
         # Compare models based on MAE
         logger.info(f"Error for Current Model: {error_current}")
