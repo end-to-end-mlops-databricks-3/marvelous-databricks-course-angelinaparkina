@@ -6,7 +6,7 @@ import pyspark.sql.functions as f
 from sklearn.model_selection import train_test_split
 from pyspark.sql import SparkSession
 
-from src.hotel_reservations.config import ProjectConfig
+from hotel_reservations.config import ProjectConfig
 
 
 class DataProcessor:

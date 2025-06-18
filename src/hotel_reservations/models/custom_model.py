@@ -18,7 +18,8 @@ from mlflow import MlflowClient
 from mlflow.data.dataset_source import DatasetSource
 from mlflow.models import infer_signature
 from mlflow.utils.environment import _mlflow_conda_env
-from pyspark.sql import SparkSession
+from pyspark.sql import DataFrame, SparkSession
+import pyspark.sql.functions as f
 from sklearn.compose import ColumnTransformer
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.pipeline import Pipeline
@@ -182,7 +183,7 @@ class CustomModel:
             mlflow.pyfunc.log_model(
                 python_model=model,
                 artifact_path="pyfunc-lightgbm-hotel-model",
-                code_paths=self.code_paths,
+                # code_paths=self.code_paths,
                 conda_env=conda_env,
                 signature=signature,
                 input_example=self.X_train.iloc[0:1],
@@ -245,3 +246,47 @@ class CustomModel:
 
         # Return predictions as a DataFrame
         return predictions
+    
+    def model_improved(self, test_set: pd.DataFrame) -> bool:
+        """Evaluate the model performance on the test set.
+
+        Compares the current model with the latest registered model using MAE.
+        :param test_set: DataFrame containing the test data.
+        :return: True if the current model performs better, False otherwise.
+        """
+        y_test = np.array(test_set[[self.config.target]]).flatten()
+        X_test = test_set.drop([self.config.target], axis = 1)
+
+        predictions_latest = self.load_latest_model_and_predict(X_test)
+
+        current_model_uri = f"runs:/{self.run_id}/pyfunc-lightgbm-hotel-model"
+        model = mlflow.pyfunc.load_model(current_model_uri)
+        predictions_current = model.predict(X_test)
+
+        # test_set = test_set.select("Booking_ID", "booking_status")
+
+        logger.info("Predictions are ready.")
+
+        # Join the DataFrames on the 'id' column
+        # df = test_set.join(predictions_current, on="Booking_ID").join(predictions_latest, on="Booking_ID")
+
+        # Calculate the absolute error for each model
+        # df = df.withColumn("error_current", f.abs(df["booking_status"] - df["prediction_current"]))
+        # df = df.withColumn("error_latest", f.abs(df["booking_status"] - df["prediction_latest"]))
+
+        # Calculate the Mean Absolute Error (MAE) for each model
+        # error_current = df.agg(f.sum("error_current")).collect()[0][0]
+        # error_latest = df.agg(f.sum("error_latest")).collect()[0][0]
+        error_current = sum(abs(truth - current) for truth, current in zip(y_test, predictions_current))
+        error_latest = sum(abs(truth - latest) for truth, latest in zip(y_test, predictions_latest))
+
+        # Compare models based on MAE
+        logger.info(f"Error for Current Model: {error_current}")
+        logger.info(f"Error for Latest Model: {error_latest}")
+
+        if error_current < error_latest:
+            logger.info("Current Model performs better.")
+            return True
+        else:
+            logger.info("New Model performs worse.")
+            return False
