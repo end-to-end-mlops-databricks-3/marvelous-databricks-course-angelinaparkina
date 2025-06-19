@@ -1,6 +1,7 @@
 """Unit tests for DataProcessor."""
 
 import pandas as pd
+import pytest
 from conftest import CATALOG_DIR
 from pyspark.sql import SparkSession
 
@@ -122,6 +123,7 @@ def test_split_data_default_params(
     test.to_csv((CATALOG_DIR / "test_set.csv").as_posix(), index=False)  # noqa
 
 
+@pytest.mark.skip(reason="depends on delta tables on Databricks")
 def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_session: SparkSession) -> None:
     """Test that the data is saved to UC.
 
