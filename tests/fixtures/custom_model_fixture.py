@@ -17,7 +17,9 @@ from hotel_reservations.config import ProjectConfig, Tags
 from hotel_reservations.models.custom_model import CustomModel
 from hotel_reservations import __version__ as hotel_reservations_v
 
-whl_file_name = f"hotel_reservations-{hotel_reservations_v}-py3-none-any.whl"  # Global variable to store the .whl file name
+whl_file_name = (
+    f"hotel_reservations-{hotel_reservations_v}-py3-none-any.whl"  # Global variable to store the .whl file name
+)
 
 
 @pytest.fixture(scope="session")
