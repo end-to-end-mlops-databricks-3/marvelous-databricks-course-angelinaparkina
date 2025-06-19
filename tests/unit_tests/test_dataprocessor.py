@@ -134,6 +134,7 @@ def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_sessi
     processor.preprocess()
     train, test = processor.split_data()
     processor.save_to_catalog(train_set=train, test_set=test)
+    processor.enable_change_data_feed()
 
     path = f"{config.catalog_name}.{config.schema_name}"
     # not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?
