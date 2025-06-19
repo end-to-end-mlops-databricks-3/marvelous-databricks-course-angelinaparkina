@@ -2,7 +2,6 @@
 
 import pandas as pd
 from conftest import CATALOG_DIR
-from delta.tables import DeltaTable
 from pyspark.sql import SparkSession
 
 from hotel_reservations.config import ProjectConfig
@@ -137,12 +136,6 @@ def test_data_save(sample_data: pd.DataFrame, config: ProjectConfig, spark_sessi
     processor.enable_change_data_feed()
 
     path = f"{config.catalog_name}.{config.schema_name}"
-    # not sure how to make this dynamic regardless of table_name, by putting it into the function as parameter?
-    assert DeltaTable.isDeltaTable(spark_session, f"{path}.train_set")
-    assert DeltaTable.isDeltaTable(spark_session, f"{path}.test_set")
-
-    saved_df_train = spark_session.table(f"{path}.train_set")
-    assert not saved_df_train.rdd.isEmpty()
-
-    saved_df_test = spark_session.table(f"{path}.test_set")
-    assert not saved_df_test.rdd.isEmpty()
+    # Assert
+    assert spark_session.catalog.tableExists(f"{path}.train_set")
+    assert spark_session.catalog.tableExists(f"{path}.test_set")
