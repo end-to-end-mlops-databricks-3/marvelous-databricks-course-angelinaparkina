@@ -6,7 +6,7 @@ import pyspark.sql.functions as f
 from sklearn.model_selection import train_test_split
 from pyspark.sql import SparkSession
 
-from src.hotel_reservations.config import ProjectConfig
+from hotel_reservations.config import ProjectConfig
 
 
 class DataProcessor:
@@ -87,11 +87,11 @@ class DataProcessor:
         This method alters the tables to enable Change Data Feed functionality.
         """
         self.spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set"
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.train_set "
             "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
         )
 
         self.spark.sql(
-            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set"
+            f"ALTER TABLE {self.config.catalog_name}.{self.config.schema_name}.test_set "
             "SET TBLPROPERTIES (delta.enableChangeDataFeed = true);"
         )

@@ -19,23 +19,27 @@ import yaml
 from loguru import logger
 from pyspark.sql import SparkSession
 
-from marvelous.logging import setup_logging
 from marvelous.timer import Timer
 
-from src.hotel_reservations import DataProcessor, DataReader
-from src.hotel_reservations.config import ProjectConfig
+from hotel_reservations.data_processor import DataProcessor
+from hotel_reservations.data_reader import DataReader
+from hotel_reservations.config import ProjectConfig
+from marvelous.common import create_parser
 
 # COMMAND ----------|^
+args = create_parser()
 
+root_path = args.root_path
 config_path = "../project_config.yml"
 
 config = ProjectConfig.from_yaml(config_path=config_path, env="dev")
+is_test = args.is_test
 
 # temp_log_file_path = "/tmp/logs/marvelous-1.log"
 
-log_file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/logs/marvelous-1.log"
+# log_file_path = f"/Volumes/{config.catalog_name}/{config.schema_name}/logs/marvelous-1.log"
 
-setup_logging(log_file=log_file_path)
+# setup_logging(log_file=log_file_path)
 
 logger.info("Configuration loaded:")
 logger.info(yaml.dump(config, default_flow_style=False))
